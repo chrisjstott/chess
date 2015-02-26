@@ -14,19 +14,19 @@ class Board
 
     # try to create a helper method
     (0..7).each do |column|
-      self[0, column] = back_row[column].new(:black, [0, column], self)
+      grid[0][column] = back_row[column].new(:black, [0, column], self)
     end
 
     (0..7).each do |column|
-      self[1, column] = Pawn.new(:black, [1, column], self)
+      grid[1][column] = Pawn.new(:black, [1, column], self)
     end
 
     (0..7).each do |column|
-      self[6, column] = Pawn.new(:white, [6, column], self)
+      grid[6][column] = Pawn.new(:white, [6, column], self)
     end
 
     (0..7).each do |column|
-      self[7, column] = back_row[column].new(:white, [7, column], self)
+      grid[7][column] = back_row[column].new(:white, [7, column], self)
     end
   end
 
@@ -51,18 +51,10 @@ class Board
 
   end
 
-  def [](pos)
-    x, y = pos[0], pos[1]
-    grid[x][y]
-  end
-
-  def []=(pos, piece)
-    x, y = pos[0], pos[1]
-    grid[x][y] = piece
-  end
-
   def occupied?(location)
-    return true unless location.nil?
+    x = location[0]
+    y = location[1]
+    return true unless board[x][y].nil?
     false
   end
 
