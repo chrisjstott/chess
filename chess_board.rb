@@ -30,6 +30,19 @@ class Board
     end
   end
 
+
+  # doesn't check pieces available moves to see if valid
+  def move(start, end_pos)
+    grid_start = grid[start[0]][start[1]]
+    grid_end = grid[end_pos[0]][end_pos[1]]
+    piece = grid_start
+
+    piece.location = end_pos
+
+    grid_start = nil
+    grid_end = piece
+  end
+
   def opposite_color(color)
     color == :white ? :black : :white
   end
@@ -54,13 +67,13 @@ class Board
   def occupied?(location)
     x = location[0]
     y = location[1]
-    return true unless board[x][y].nil?
-    false
+    return false if off_board?(location) || grid[x][y].nil?
+    true
   end
 
   def off_board?(location)
-    return true if location[0].between?(0,7) && location[1].between?(0,7)
-    false
+    return false if location[0].between?(0,7) && location[1].between?(0,7)
+    true
   end
 
 end

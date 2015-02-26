@@ -1,7 +1,9 @@
+require 'byebug'
 require_relative 'chess_board.rb'
 
 class Piece
-  attr_reader :color, :location, :board, :move_dirs
+  attr_reader :color, :board, :move_dirs
+  attr_accessor :location
 
   def initialize(color, location, board)
     @color = color
@@ -27,14 +29,13 @@ class SlidingPiece < Piece
       x, y = location[0], location[1]
       x_move, y_move = dir[0], dir[1]
       new_position = [x + x_move, y + y_move]
-      # need to define occupied? in board class
       until board.occupied?(new_position) || board.off_board?(new_position)
         moves << new_position
         new_position[0] += x_move
         new_position[1] += y_move
       end
       if board.occupied?(new_position)
-        piece_in_way = board.grid[new_position]
+        piece_in_way = board.grid[new_position[0]][new_position[1]]
         moves << new_position if piece_in_way.color == opponent_color
       end
     end
